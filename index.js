@@ -1,8 +1,13 @@
 import express from 'express';
-import recipeRouter from './routes/recipes.js';
+import recipeRouter from './routes/recipe.js';
+import mongoose from 'mongoose';
+
+await mongoose.connect(process.env.MONGO_URL)
 
 // create express app
-const app =express();
+const app = express();
+//apply miiiddleware
+app.use(express.json());
 
 // Define route
 
@@ -15,6 +20,8 @@ app.post('/login', (req,res) => {
 app.patch('/update', (req,res) => {
     res.json('update sucessful')
 });
+
+
 
 // used routes
 
