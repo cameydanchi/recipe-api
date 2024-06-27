@@ -6,25 +6,10 @@ await mongoose.connect(process.env.MONGO_URL)
 
 // create express app
 const app = express();
-//apply miiiddleware
+//apply middleware
 app.use(express.json());
 
-// Define route
-
-app.get('/', (req,res) =>{
-    res.json('akwaaba');
-});
-app.post('/login', (req,res) => {
-    res.json('login sucessful')
-});
-app.patch('/update', (req,res) => {
-    res.json('update sucessful')
-});
-
-
-
 // used routes
-
 app.use(recipeRouter);
 
 // listen for incoming requests
