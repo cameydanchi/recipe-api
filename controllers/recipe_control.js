@@ -12,10 +12,9 @@ export const getRecipe = async (req, res, next) => {
         next(error)
     }
 }
-// pst recie
+// pst recipe
 
-export const postRecipe =
-    async (req, res, next) => {
+export const postRecipe = async (req, res, next) => {
         // add recipe to database
         try {
             const newRecipe = await RecipeModel.create(req.body);
