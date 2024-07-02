@@ -1,7 +1,5 @@
 import { RecipeModel } from "../models/recipe.js";
 
-
-
 export const getRecipe = async (req, res, next) => {
     try {
         // get all recipe from database
@@ -25,8 +23,16 @@ export const postRecipe = async (req, res, next) => {
         }
     }
 
-export const patchRecipe = (req, res) => {
-    res.json(`Recipe with id ${req.params.id} updated`)
+export const patchRecipe = async (req, res,next) => {
+   try {
+
+    // update recipe by Id
+    const updatedRecipe = await RecipeModel.findByIdAndUpdate(req.params.id,req.body,{new:true})
+    // return response
+     res.json(updatedRecipe)
+   } catch (error) {
+    next(error)
+   }
 }
 
 export const deletePatch = async (req, res, next) => {
