@@ -11,6 +11,7 @@ import 'dotenv/config';
 // create express app
 const app = express();
 expressOasGenerator.handleResponses(app,{
+    alwaysServeDocs:true,
     tags: ['categories', ' recipes'],
     mongooseModels: mongoose.modelNames(),
 })
@@ -20,6 +21,7 @@ expressOasGenerator.handleResponses(app,{
 
 //apply middleware
 app.use(express.json());
+app.use(express.static('uploads'))
 
 // used routes
 app.use(recipeRouter);
@@ -30,5 +32,5 @@ app.use((req,res) => res.redirect('/api-docs'));
 // listen for incoming requests
 const port = process.env.PORT || 3000;
 app.listen(port,() => {
-    console.log(`app lsitening on port ${port}`)
+    console.log(`app listening on port ${port}`)
 });

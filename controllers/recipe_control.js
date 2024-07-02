@@ -2,8 +2,14 @@ import { RecipeModel } from "../models/recipe.js";
 
 export const getRecipe = async (req, res, next) => {
     try {
+
+        // get query params
+        const {limit,skip,search} = req.query;
         // get all recipe from database
-        const allRecipes = await RecipeModel.find();
+        const allRecipes = await RecipeModel
+        .find({name: search})
+        .limit(limit)
+        .skip(skip);
         // return all recipe as response
         res.json(allRecipes)
     } catch (error) {
@@ -15,7 +21,12 @@ export const getRecipe = async (req, res, next) => {
 export const postRecipe = async (req, res, next) => {
         // add recipe to database
         try {
-            const newRecipe = await RecipeModel.create(req.body);
+
+            
+            const newRecipe = await RecipeModel.create({
+                ...req.body,
+                name:req.file.filename
+            });
             //  return response
             res.json(newRecipe);
         } catch (error) {
