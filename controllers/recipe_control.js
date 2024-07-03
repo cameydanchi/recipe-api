@@ -8,8 +8,8 @@ export const getRecipe = async (req, res, next) => {
         const allRecipes = await RecipeModel
         .find(filter ? JSON.parse(filter) : {})
         .select(fields ? JSON.parse(fields) : '')
-        .limit(limit ? parseInt(limit) : undefined)
-        .skip(skip ? parseInt(skip) : undefined);
+        .limit(limit ? parseInt(limit) : 10)
+        .skip(skip ? parseInt(skip) : 0);
         // return all recipe as response
         res.json(allRecipes)
     } catch (error) {

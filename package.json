@@ -18,6 +18,7 @@
     "express-oas-generator": "^1.0.46",
     "mongoose": "^8.4.4",
     "multer": "^1.4.5-lts.1",
+    "multer-savefilesorg": "^1.0.2",
     "normalize-mongoose": "^1.0.0"
   },
   "devDependencies": {

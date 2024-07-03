@@ -3,10 +3,10 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import expressOasGenerator from 'express-oas-generator'
 import recipeRouter from './routes/recipe.js';
-
+import 'dotenv/config';
 
 import categoryRouter from './routes/category.js';
-import 'dotenv/config';
+
 
  await mongoose.connect(process.env.MONGO_URL);
 
