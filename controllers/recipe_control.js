@@ -4,28 +4,26 @@ export const getRecipe = async (req, res, next) => {
     try {
 
         // get query params
-        const {limit,skip,search} = req.query;
-        // get all recipe from database
+        const {limit,skip,filter,fields} = req.query;
         const allRecipes = await RecipeModel
-        .find({name: search})
-        .limit(limit)
-        .skip(skip);
+        .find(filter ? JSON.parse(filter) : {})
+        .select(fields ? JSON.parse(fields) : '')
+        .limit(limit ? parseInt(limit) : undefined)
+        .skip(skip ? parseInt(skip) : undefined);
         // return all recipe as response
         res.json(allRecipes)
     } catch (error) {
         next(error)
     }
 }
-// pst recipe
+// post recipe
 
 export const postRecipe = async (req, res, next) => {
         // add recipe to database
         try {
-
-            
             const newRecipe = await RecipeModel.create({
                 ...req.body,
-                name:req.file.filename
+                image:req.file.filename
             });
             //  return response
             res.json(newRecipe);
