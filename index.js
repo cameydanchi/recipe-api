@@ -2,10 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import expressOasGenerator from 'express-oas-generator'
+import session from 'express-session';
 import recipeRouter from './routes/recipe.js';
 import 'dotenv/config';
 
 import categoryRouter from './routes/category.js';
+import userRouter from './routes/user.js';
 
 
  await mongoose.connect(process.env.MONGO_URL);
@@ -24,10 +26,17 @@ expressOasGenerator.handleResponses(app,{
 //apply middleware
 app.use(cors())
 app.use(express.json());
-app.use(express.static('uploads'))
+app.use(express.static('uploads'));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }))
 
 
 // used routes
+app.use(userRouter);
 app.use(recipeRouter);
 app.use(categoryRouter);
 expressOasGenerator.handleRequests();
