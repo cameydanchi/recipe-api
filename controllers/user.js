@@ -18,8 +18,55 @@ export const register = async (req, res, next) => {
     }
 }
 
-const login = async (req, res, next) => { }
+export const login = async (req, res, next) => {
+   try {
+     const { email, passowrd } = req.body
+     // find a user using thier unique identiifier
+     const user = await userModel.findOne({
+        $or:[
+            {email:email},
+            {username:usernmae},
+            {phone:phonek}
+        ]
+     });
+     if (!user) {
+         return res.status(401).json('no user found');
+     } else {
+         //verify their password
+         const correctPassword = bcrypt.compareSync(req.body.password, user.password);
+         if (!correctPassword) {
+             res.status(401).json('Invalid credentials')
+         } else {
+             // Generate a session
+             req.session.user = { id: user.id }
+             // return respond
+             res.status(200).json('Login successful')
+         }
+     }
+   } catch (error) {
+    next(error)
+   }
 
-const logout = async (req, res, next) => { }
+}
 
-const profile = async (req, res, next) => { }
+export const logout = async (req, res, next) => {
+try {
+        // destroy user session
+        await req.session.destroy();
+        // return response
+        res.status(200).json('Logout Succesfully')
+} catch (error) {
+    next(error)
+}
+ }
+
+export const profile = async (req, res, next) => { 
+ try {
+       // find a user by id
+       const user = await userModel.findById(req.session.user.id)
+       // Return response
+       res.status(200).json(user)
+ } catch (error) {
+    next(error);
+ }
+} 

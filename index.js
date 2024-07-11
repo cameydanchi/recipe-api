@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import expressOasGenerator from 'express-oas-generator'
+import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import recipeRouter from './routes/recipe.js';
 import 'dotenv/config';
@@ -11,6 +12,8 @@ import userRouter from './routes/user.js';
 
 
  await mongoose.connect(process.env.MONGO_URL);
+
+ 
 
 // create express app
 const app = express();
@@ -31,8 +34,10 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
-  }))
+    // cookie: { secure: true },
+    store:MongoStore.create({
+        mongoUrl:process.env.MONGO_URL})
+  }));
 
 
 // used routes
